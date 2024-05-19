@@ -1,5 +1,5 @@
 # Embedded-Automotive
-## Bài 2 GPIO
+## Bài 2: GPIO
 ![GPIO](https://raw.githubusercontent.com/diephauthan/Embedded-Automotive/main/GPIO.jpg)
 
 - Để sử dụng ngoại vi, luôn cấp clock cho ngoại vi. Mỗi ngoại vi trên STM32 được điều khiển bằng một bộ điều khiển riêng (ví dụ: GPIO, UART, SPI, I2C, etc.), và mỗi bộ điều khiển đều có một bit điều khiển clock riêng trong thanh ghi tương ứng.
@@ -20,3 +20,7 @@ GPIO_OType: Loại đầu ra của chân GPIO, có thể là push-pull hoặc op
 GPIO_PuPd: Trạng thái điện trở kéo lên hoặc kéo xuống của chân GPIO khi không có tín hiệu đầu vào, có thể là GPIO_PuPd_NOPULL, GPIO_PuPd_UP, hoặc GPIO_PuPd_DOWN.
 
 Khi bạn muốn cấu hình một chân GPIO, bạn sẽ khai báo một biến kiểu GPIO_InitTypeDef và cung cấp các thông số cần thiết cho nó, sau đó chuyển nó cho hàm GPIO_Init để thực hiện việc cấu hình chân GPIO tương ứng.
+
+## Bài 3: Interrupt & Timer
+Ngắt là 1 sự kiện khẩn cấp xảy ra trong hay ngoài vi điều khiển. Nó yêu MCU phải dừng chương trình chính và thực thi chương trình ngắt.
+
