@@ -24,27 +24,27 @@ void GPIO_ConfigPin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, GPIOSpeed_TypeDef GP
 void GPIO_Config() {
     GPIO_ConfigPin(GPIOC, GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15, GPIO_Speed_50MHz, GPIO_Mode_Out_PP);
     GPIO_ConfigPin(GPIOA, GPIO_Pin_0, GPIO_Speed_50MHz, GPIO_Mode_Out_PP);
-		GPIO_ConfigPin(GPIOA, GPIO_Pin_1, GPIO_Speed_50MHz, GPIO_Mode_IPU);
+	GPIO_ConfigPin(GPIOA, GPIO_Pin_1, GPIO_Speed_50MHz, GPIO_Mode_IPU);
 }
 
-
-		void ChaseLEDs() {
+void ChaseLEDs() {
     uint16_t LEDPins[] = {GPIO_Pin_13, GPIO_Pin_14, GPIO_Pin_15, GPIO_Pin_0};
     GPIO_TypeDef* Ports[] = {GPIOC, GPIOC, GPIOC, GPIOA};
-
         for (uint8_t i = 0; i < 4; i++) {
             // Turn off LED
             for (uint8_t k = 0; k < 4; k++) {	
-							GPIO_SetBits(Ports[k], LEDPins[k]);
+		GPIO_SetBits(Ports[k], LEDPins[k]);
             }
             // Turn on LED
-						GPIO_ResetBits(Ports[i], LEDPins[i]);
+		GPIO_ResetBits(Ports[i], LEDPins[i]);
             Delay_ms(500);
-						// Turn off whole LED to prevent the last LED will be turn on
-						for (uint8_t k = 0; k < 4; k++) {
-							GPIO_SetBits(Ports[k], LEDPins[k]);
-						}	
         }
+	if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_1) == Bit_RESET){
+            return ChaseLEDs();
+	}
+	for (uint8_t k = 0; k < 4; k++) {
+		GPIO_SetBits(Ports[k], LEDPins[k]);
+	}
     }
 		
 int main() {
@@ -53,9 +53,12 @@ int main() {
 
      while(1) {
         if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_1) == Bit_RESET) {
+            // Debounce nút nh?n (tránh vi?c nh?n nh?y nhi?u l?n)
             Delay_ms(50);  
             if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_1) == Bit_RESET) {
+                // Ð?i nút nh?n du?c th? ra
                 while (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_1) == Bit_RESET);
+                // Th?c hi?n nháy du?i LED
                 ChaseLEDs();
             }
         }
