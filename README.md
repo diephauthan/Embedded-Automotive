@@ -57,3 +57,7 @@ Ngắt theo mức thường được sử dụng cho các tình huống yêu c�
 Ngắt theo cạnh thường được sử dụng cho các sự kiện ngắn hạn, chẳng hạn như phát hiện cạnh lên hoặc cạnh xuống trong các tín hiệu số.
 </details>
 
+## Bài 4: Communication Protocols
+<details>
+
+</details>
