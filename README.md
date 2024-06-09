@@ -61,3 +61,23 @@ Ngắt theo cạnh thường được sử dụng cho các sự kiện ngắn h�
 <details>
 
 </details>
+
+## Bài 5: SPI SW & SPI HW
+<details>
+
+</details>
+
+## Bài 6: I2C SW & I2C HW
+<details>
+
+</details>
+
+## Bài 7: UART SW & UART HW
+<details>
+
+</details>
+
+## Bài 8: EXTI, NGẮT TIMER, NGẮT TRUYỀN THÔNG
+<details>
+
+</details>
