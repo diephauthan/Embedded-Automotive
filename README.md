@@ -59,7 +59,19 @@ Ngắt theo cạnh thường được sử dụng cho các sự kiện ngắn h�
 
 ## Bài 4: Communication Protocols
 <details>
+  
+**SPI**
+Là chuẩn giao tiếp nối tiếp đòng bộ. Có thể hoạt động ở chế độ song công (truyền - nhận cùng lúc). Sử dụng 4 dây giao tiếp (SCK, MOSI, MISO, CS)
 
+SCK (Serial Clock): Thiết bị Master tạo xung tín hiệu SCK và cung cấp cho Slave. Xung này có chức năng giữ nhịp cho giao tiếp SPI. Mỗi nhịp trên chân SCK báo 1 bit dữ liệu đến hoặc đi → Quá trình ít bị lỗi và tốc độ truyền cao.
+
+MISO (Master Input Slave Output): Tín hiệu tạo bởi thiết bị Slave và nhận bởi thiết bị Master. Đường MISO phải được kết nối giữa thiết bị Master và Slave.
+
+MOSI (Master Output Slave Input): Tín hiệu tạo bởi thiết bị Master và nhận bởi thiết bị Slave. Đường MOSI phải được kết nối giữa thiết bị Master và Slave.
+
+SS (Slave Select): Chọn thiết bị Slave cụ thể để giao tiếp. Để chọn Slave giao tiếp thiết bị Master chủ động kéo đường SS tương ứng xuống mức 0 (Low). Chân này đôi khi còn được gọi là CS (Chip Select). Chân SS của vi điều khiển (Master) có thể được người dùng tạo bằng cách cấu hình 1 chân GPIO bất kỳ chế độ Output.
+
+SPI cho phép 1 MCU chủ giao tiếp với nhiều thiết bị tớ thông qua tín hiệu chọn thiết bị SS. Các thiết bị tớ chỉ có thể có 1 chân CS để nhận tín hiệu chọn này, tuy nhiên thiết bị chủ có thể có nhiều hơn 1 chân SS để chọn từng thiết bị muốn giao tiếp.
 </details>
 
 ## Bài 5: SPI SW & SPI HW
@@ -80,4 +92,59 @@ Ngắt theo cạnh thường được sử dụng cho các sự kiện ngắn h�
 ## Bài 8: EXTI, NGẮT TIMER, NGẮT TRUYỀN THÔNG
 <details>
 
+</details>
+
+## Bài 9: ADC
+<details>
+
+**Analog to Digital Converter (ADC)** là một thiết bị hoặc mạch điện tử chuyển đổi tín hiệu analog thành tín hiệu digital. ADC cho phép các thiết bị kỹ thuật số làm việc với các tín hiệu từ thế giới thực như âm thanh, ánh sáng, nhiệt độ, và áp suất.
+
+**Các khái niệm cơ bản**
+
+**1. Tín hiệu Analog và Digital**
+- Tín hiệu Analog: Là tín hiệu có giá trị thay đổi liên tục theo thời gian, ví dụ như điện áp, dòng điện, âm thanh.
+- Tín hiệu Digital: Là tín hiệu chỉ có các giá trị rời rạc, thường là 0 và 1 trong hệ nhị phân.
+**2. Quá trình chuyển đổi**
+ADC thực hiện chuyển đổi qua ba bước chính:
+
+**Lấy mẫu (Sampling):** Tín hiệu analog được lấy mẫu tại các khoảng thời gian giống nhau.
+Giữ và chuyển đổi (Hold and Convert): Mỗi mẫu được giữ lại và chuyển đổi thành giá trị digital tương ứng.
+Lượng tử hóa (Quantization): Giá trị analog được làm tròn đến giá trị digital gần nhất.
+Các loại ADC
+Có nhiều loại ADC khác nhau, mỗi loại có ưu và nhược điểm riêng:
+
+1. Flash ADC
+Nguyên lý: Sử dụng một mạng lưới các so sánh điện áp để chuyển đổi tín hiệu trong một bước duy nhất.
+Ưu điểm: Tốc độ chuyển đổi rất nhanh.
+Nhược điểm: Yêu cầu nhiều linh kiện hơn và tiêu thụ nhiều năng lượng.
+2. Successive Approximation Register (SAR) ADC
+Nguyên lý: Sử dụng một mạch so sánh để từng bước tìm ra giá trị digital tương ứng.
+Ưu điểm: Tốc độ chuyển đổi vừa phải, độ chính xác cao.
+Nhược điểm: Phức tạp hơn và có thể chậm hơn Flash ADC.
+3. Sigma-Delta ADC
+Nguyên lý: Sử dụng phương pháp lấy mẫu quá mức và lọc để đạt được độ chính xác cao.
+Ưu điểm: Độ chính xác rất cao và tiêu thụ năng lượng thấp.
+Nhược điểm: Tốc độ chuyển đổi chậm hơn so với các loại khác.
+**Các thông số quan trọng của ADC**
+
+**1. Độ phân giải (Resolution)**
+
+**Định nghĩa:** là số bit dùng để mã hóa ADC.
+
+**Ý nghĩa:** Độ phân giải càng cao, tín hiệu digital càng chính xác. Ví dụ, một ADC 8-bit có thể biểu diễn 256 mức tín hiệu khác nhau, trong khi một ADC 16-bit có thể biểu diễn 65536 mức.
+
+**2. Tốc độ lấy mẫu (Sampling Rate)**
+**Định nghĩa:** Là số lần ADC lấy mẫu tín hiệu analog mỗi giây, đo bằng Hertz (Hz).
+
+**Ý nghĩa:** Tốc độ lấy mẫu càng cao, khả năng theo dõi tín hiệu nhanh và phức tạp càng tốt.
+
+**3. Độ chính xác (Accuracy)**
+
+**Định nghĩa:** Là mức độ chính xác của giá trị digital so với giá trị analog thực tế.
+
+**Ý nghĩa:** Độ chính xác cao đảm bảo rằng tín hiệu digital gần đúng với tín hiệu analog gốc.
+
+4. Dải động (Dynamic Range)
+Định nghĩa: Là tỷ số giữa tín hiệu lớn nhất có thể đo và tín hiệu nhỏ nhất có thể đo.
+Ý nghĩa: Dải động rộng giúp ADC có thể xử lý các tín hiệu với biên độ khác nhau mà không bị bão hòa.
 </details>
