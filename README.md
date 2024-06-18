@@ -1,10 +1,11 @@
 # Embedded-Automotive
 ## Bài 2: GPIO
 <details>
+  
 ![GPIO](https://raw.githubusercontent.com/diephauthan/Embedded-Automotive/main/GPIO.jpg)
 
 - Để sử dụng ngoại vi, luôn cấp clock cho ngoại vi. Mỗi ngoại vi trên STM32 được điều khiển bằng một bộ điều khiển riêng (ví dụ: GPIO, UART, SPI, I2C, etc.), và mỗi bộ điều khiển đều có một bit điều khiển clock riêng trong thanh ghi tương ứng.
-- Sau khi bạn đã bật tín hiệu clock cho ngoại vi, bước tiếp theo là cấu hình các chức năng và các thiết lập khác cho ngoại vi đó, tuỳ thuộc vào mục đích sử dụng của bạn. Cấu hình này thường bao gồm việc chọn chế độ hoạt động, cấu hình các chân GPIO, chọn tốc độ truyền dữ liệu, và các thiết lập khác liên quan đến nhu cầu cụ thể của ứng dụng.
+- Sau khi đã bật tín hiệu clock cho ngoại vi, bước tiếp theo là cấu hình các chức năng và các thiết lập khác cho ngoại vi đó, tuỳ thuộc vào mục đích sử dụng của bạn. Cấu hình này thường bao gồm việc chọn chế độ hoạt động, cấu hình các chân GPIO, chọn tốc độ truyền dữ liệu, và các thiết lập khác liên quan đến nhu cầu cụ thể của ứng dụng.
 
 Ví dụ, nếu bạn đang cấu hình một chân GPIO để làm chân đầu ra, bạn sẽ cần xác định các thông số như chế độ đầu ra (output mode), điện trở kéo lên hoặc kéo xuống (pull-up/pull-down), tốc độ đầu ra (output speed), và các thông số khác tùy thuộc vào yêu cầu của ứng dụng.
 
@@ -12,13 +13,42 @@ GPIO_InitTypeDef là một cấu trúc dữ liệu được sử dụng trong th
 
 GPIO_Pin: Định danh chân GPIO cần cấu hình. Đây thường là một hoặc kết hợp của các giá trị GPIO_Pin_x (trong đó x là số của chân GPIO) được định nghĩa trong thư viện STM32.
 
-GPIO_Mode: Chế độ hoạt động của chân GPIO, ví dụ như đầu vào (input), đầu ra (output), hoặc chức năng đặc biệt (alternate function).
+GPIO_Mode: Chế độ hoạt động của chân GPIO gồm 8 chế độ
+
+**GPIO_Mode_AIN Analog Input**
+
+- Chân GPIO được cấu hình làm đầu vào analog. Thường được sử dụng cho các chức năng như ADC (Analog to Digital Converter).
+
+**GPIO_Mode_IN_FLOATING Floating Input**
+
+- Chân GPIO được cấu hình làm đầu vào và ở trạng thái nổi (không pull-up hay pull-down). Điều này có nghĩa là chân không được kết nối cố định với mức cao (VDD) hoặc mức thấp (GND) thông qua điện trở.
+
+**GPIO_Mode_IPD Input with Pull-down**
+
+- Chân GPIO được cấu hình làm đầu vào với một điện trở pull-down nội bộ kích hoạt. Khi không có tín hiệu nào được áp dụng lên chân này, nó sẽ được kéo về mức thấp (GND).
+
+**GPIO_Mode_IPU Input with Pull-up**
+ 
+- Chân GPIO được cấu hình làm đầu vào với một điện trở pull-up nội bộ kích hoạt. Khi không có tín hiệu nào được áp dụng lên chân này, nó sẽ được kéo về mức cao (VDD).
+
+**GPIO_Mode_Out_OD Open-drain Output**
+
+- Chân GPIO được cấu hình làm đầu ra với chế độ open-drain. Trong chế độ này, chân có thể được kéo xuống mức thấp, nhưng để đạt được mức cao, cần một điện trở pull-up ngoài hoặc từ một nguồn khác.
+
+**GPIO_Mode_Out_PP Push-pull Output**
+
+- Chân GPIO được cấu hình làm đầu ra với chế độ push-pull. Trong chế độ này, chân có thể đạt được cả mức cao và mức thấp mà không cần bất kỳ phần cứng bổ sung nào.
+ 
+**GPIO_Mode_AF_OD Alternate Function Open-drain**
+
+- Chân GPIO được cấu hình để hoạt động trong một chức năng thay thế (như USART, I2C, etc.) và sử dụng chế độ open-drain.
+
+ **GPIO_Mode_AF_PP Alternate Function Push-pull**
+
+- Chân GPIO được cấu hình để hoạt động trong một chức năng thay thế và sử dụng chế độ push-pull.
+
 
 GPIO_Speed: Tốc độ của chân GPIO, thường được thiết lập thành một trong các giá trị GPIO_Speed_xMHz (trong đó x là tốc độ truyền dẫn tối đa của chân GPIO).
-
-GPIO_OType: Loại đầu ra của chân GPIO, có thể là push-pull hoặc open-drain.
-
-GPIO_PuPd: Trạng thái điện trở kéo lên hoặc kéo xuống của chân GPIO khi không có tín hiệu đầu vào, có thể là GPIO_PuPd_NOPULL, GPIO_PuPd_UP, hoặc GPIO_PuPd_DOWN.
 
 Khi bạn muốn cấu hình một chân GPIO, bạn sẽ khai báo một biến kiểu GPIO_InitTypeDef và cung cấp các thông số cần thiết cho nó, sau đó chuyển nó cho hàm GPIO_Init để thực hiện việc cấu hình chân GPIO tương ứng.
 </details>
