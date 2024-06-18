@@ -122,6 +122,9 @@ SPI cho phép 1 MCU chủ giao tiếp với nhiều thiết bị tớ thông qua
 ## Bài 8: EXTI, NGẮT TIMER, NGẮT TRUYỀN THÔNG
 <details>
 
+**EXTI**
+Để cấu hình được ngắt ngoài, cần xác định các chân sẽ dùng để ngắt ngoài, cấu hình GPIO cho chân tương ứng. Để sử dụng được ngắt ngoài, ngoài bật clock cho GPIO tương ứng cần bật thêm clock cho AFIO.
+
 </details>
 
 ## Bài 9: ADC
