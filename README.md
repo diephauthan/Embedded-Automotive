@@ -200,6 +200,7 @@ bộ nhớ flash được chia thành 3 phần:
 - vùng nhớ trống
 
 **Quy trình xóa trang bộ nhớ flash**
+
 **1. Đọc giá trị của thanh ghi khóa bộ nhớ flash (FLASH_CR_LOCK):**
 
 Đầu tiên, kiểm tra xem bộ nhớ flash có bị khóa hay không bằng cách đọc giá trị của bit khóa trong thanh ghi điều khiển bộ nhớ flash (FLASH_CR).
@@ -231,5 +232,10 @@ Kiểm tra bit bận (Busy bit - FLASH_SR_BSY) trong thanh ghi trạng thái b�
 **8. Xác nhận trang đã được xóa bằng cách đọc tất cả các địa chỉ trong trang:**
 
 Sau khi bit bận trở về 0, xác nhận rằng trang đã được xóa thành công bằng cách đọc tất cả các địa chỉ trong trang. Thường thì tất cả các giá trị trong trang sẽ được đặt về giá trị mặc định (0xFF) sau khi xóa.
+
+Flash có thể ghi 2bytes hoặc 4bytes, tuy nhiên mỗi lần xóa phải xóa cả Page.
+
+**Quy trình ghi bộ nhớ flash**
+
 
 </details>
