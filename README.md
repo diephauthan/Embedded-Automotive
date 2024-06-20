@@ -181,3 +181,55 @@ Nhược điểm: Tốc độ chuyển đổi chậm hơn so với các loại k
 Định nghĩa: Là tỷ số giữa tín hiệu lớn nhất có thể đo và tín hiệu nhỏ nhất có thể đo.
 Ý nghĩa: Dải động rộng giúp ADC có thể xử lý các tín hiệu với biên độ khác nhau mà không bị bão hòa.
 </details>
+
+## Bài 10: DMA
+<details>
+
+</details>
+
+## Bài 11: Bootloader
+<details>
+
+**Flash** được sử dụng để lưu trữ dữ liệu mà khi mất điện, dữ liệu vẫn không bị mất đi. Việc đưa dữ liệu vào bộ nhớ có thể thông qua các phương thức giao tiếp được hỗ trợ bởi VĐK như I/Os, USB, CAN, UART, I2C, SPI,.. Hoặc chức năng In-application programming (IAP) cho phép người dùng lập trình lại bộ nhớ Flash trong khi chương trình đang chạy.
+
+được tổ chức thành các trang (pages) và khối (blocks), với kích thước trang thường là 1 KB đến 2 KB tùy theo model. thường được dùng để lưu chương trình
+
+bộ nhớ flash được chia thành 3 phần:
+- vùng nhớ chứa chương trình hệ thống
+- vùng nhớ chứa chương trình người dùng nạp
+- vùng nhớ trống
+
+**Quy trình xóa trang bộ nhớ flash**
+**1. Đọc giá trị của thanh ghi khóa bộ nhớ flash (FLASH_CR_LOCK):**
+
+Đầu tiên, kiểm tra xem bộ nhớ flash có bị khóa hay không bằng cách đọc giá trị của bit khóa trong thanh ghi điều khiển bộ nhớ flash (FLASH_CR).
+
+**2.Kiểm tra bit khóa (FLASH_CR_LOCK = 1):**
+
+Nếu bit khóa (FLASH_CR_LOCK) có giá trị bằng 1, nghĩa là bộ nhớ flash đang bị khóa và không thể thực hiện các thao tác ghi/xóa.
+
+**3. Thực hiện quy trình mở khóa (Perform unlock sequence):**
+
+Nếu bộ nhớ flash đang bị khóa, bạn cần thực hiện quy trình mở khóa để mở khóa bộ nhớ flash. Quy trình mở khóa thường bao gồm việc ghi các giá trị cụ thể vào các thanh ghi khóa để mở khóa bộ nhớ flash.
+
+**4. Ghi giá trị 1 vào bit xóa trang (FLASH_CR_PER = 1):**
+
+Sau khi mở khóa thành công, ghi giá trị 1 vào bit xóa trang (Page Erase bit - FLASH_CR_PER) trong thanh ghi điều khiển bộ nhớ flash (FLASH_CR).
+
+**5. Ghi địa chỉ trang cần xóa vào thanh ghi địa chỉ flash (FAR - Flash Address Register):**
+
+Ghi vào thanh ghi địa chỉ flash (FAR) một địa chỉ nằm trong trang cần xóa. Đây là cách chỉ định trang nào sẽ bị xóa.
+
+**6. Ghi giá trị 1 vào bit khởi động (FLASH_CR_STRT = 1):**
+
+Ghi giá trị 1 vào bit khởi động (Start bit - FLASH_CR_STRT) trong thanh ghi điều khiển bộ nhớ flash (FLASH_CR) để bắt đầu quá trình xóa trang.
+
+**7. Kiểm tra bit bận (FLASH_SR_BSY = 1):**
+
+Kiểm tra bit bận (Busy bit - FLASH_SR_BSY) trong thanh ghi trạng thái bộ nhớ flash (FLASH_SR). Nếu bit bận bằng 1, quá trình xóa trang đang diễn ra và bạn cần đợi cho đến khi bit này trở về 0, nghĩa là quá trình xóa đã hoàn tất.
+
+**8. Xác nhận trang đã được xóa bằng cách đọc tất cả các địa chỉ trong trang:**
+
+Sau khi bit bận trở về 0, xác nhận rằng trang đã được xóa thành công bằng cách đọc tất cả các địa chỉ trong trang. Thường thì tất cả các giá trị trong trang sẽ được đặt về giá trị mặc định (0xFF) sau khi xóa.
+
+</details>
