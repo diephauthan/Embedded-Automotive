@@ -237,5 +237,31 @@ Flash có thể ghi 2bytes hoặc 4bytes, tuy nhiên mỗi lần xóa phải xó
 
 **Quy trình ghi bộ nhớ flash**
 
+**1. Đọc giá trị của thanh ghi FLASH_CR_LOCK:**
+
+Đây là bước kiểm tra xem bộ nhớ flash hiện đang bị khóa hay không.
+
+**2. Kiểm tra giá trị của FLASH_CR_LOCK:**
+
+Nếu giá trị của thanh ghi FLASH_CR_LOCK bằng 1 (tức là bộ nhớ flash đang bị khóa), cần thực hiện chuỗi mở khóa (perform unlock sequence).
+Nếu giá trị của thanh ghi FLASH_CR_LOCK bằng 0 (tức là bộ nhớ flash không bị khóa), tiếp tục sang bước tiếp theo.
+
+**3. Ghi giá trị 1 vào bit FLASH_CR_PG:**
+
+Điều này cho phép chế độ ghi vào bộ nhớ flash.
+
+**4. Thực hiện ghi nửa từ (half-word) tại địa chỉ mong muốn:**
+
+Đây là bước thực hiện quá trình ghi dữ liệu vào bộ nhớ flash tại địa chỉ cụ thể.
+
+**5. Kiểm tra bit FLASH_SR_BSY:**
+
+Nếu bit này bằng 1, nghĩa là bộ nhớ flash đang bận (busy), cần đợi cho đến khi bit này bằng 0.
+Nếu bit này bằng 0, nghĩa là quá trình ghi đã hoàn tất và có thể kiểm tra giá trị đã ghi.
+
+**6. Kiểm tra giá trị đã ghi bằng cách đọc địa chỉ đã ghi:**
+
+Đọc lại giá trị từ địa chỉ vừa ghi để xác minh xem quá trình ghi đã thành công hay chưa.
+
 
 </details>
